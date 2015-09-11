@@ -7,4 +7,5 @@
 
     Meteor.call 'postInsert', post, (error, result) ->
       return alert error.reason if error
+      alert 'This link has already been posted' if result.postExists
       Router.go 'postPage', _id: result._id
