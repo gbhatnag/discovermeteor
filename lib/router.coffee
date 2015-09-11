@@ -12,4 +12,11 @@
 
 @Router.route '/submit', name: 'postSubmit'
 
+requireLogin = () ->
+  if !Meteor.user()
+    this.render 'accessDenied'
+  else
+    this.next()
+
 @Router.onBeforeAction 'dataNotFound', only: 'postPage'
+@Router.onBeforeAction requireLogin, only: 'postSubmit'
