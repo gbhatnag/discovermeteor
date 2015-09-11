@@ -14,7 +14,10 @@
 
 requireLogin = () ->
   if !Meteor.user()
-    this.render 'accessDenied'
+    if Meteor.loggingIn()
+      this.render this.loadingTemplate
+    else
+      this.render 'accessDenied'
   else
     this.next()
 
