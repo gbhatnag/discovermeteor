@@ -5,7 +5,7 @@
     Session.get('postSubmitErrors')[field]
 
   errorClass: (field) ->
-    if !!Session.get('postSubmitErrors')[field] then 'has-error' else ''
+    if Session.get('postSubmitErrors')[field] then 'has-error' else ''
 
 @Template.postSubmit.events
   'submit form': (e) ->

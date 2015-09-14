@@ -1,3 +1,12 @@
+@Template.postEdit.onCreated () -> Session.set 'postEditErrors', {}
+
+@Template.postEdit.helpers
+  errorMessage: (field) ->
+    Session.get('postEditErrors')[field]
+
+  errorClass: (field) ->
+    if Session.get('postEditErrors')[field] then 'has-error' else ''
+
 @Template.postEdit.events
   'submit form': (e) ->
     e.preventDefault()
