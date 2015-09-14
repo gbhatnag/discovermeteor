@@ -38,7 +38,7 @@
 @validatePost = (post) ->
   errors = {}
 
-  errors.title = "Please fill in a headline" if !post.title
-  errors.url = "Please fill in a URL" if !post.url
+  errors.title = "Please fill in a headline" if not post.title
+  errors.url = "Please fill in a URL" if not post.url
 
   errors

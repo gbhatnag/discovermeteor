@@ -17,6 +17,9 @@
       url: $(e.target).find('[name=url]').val(),
       title: $(e.target).find('[name=title]').val()
 
+    errors = validatePost postProperties
+    return Session.set 'postEditErrors', errors if errors.title or errors.url
+
     Posts.update currentPostId, {$set: postProperties}, (error) ->
       if error
         throwError error.reason
