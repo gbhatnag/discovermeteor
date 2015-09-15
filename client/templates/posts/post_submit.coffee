@@ -18,6 +18,6 @@
     return Session.set 'postSubmitErrors', errors if errors.title or errors.url
 
     Meteor.call 'postInsert', post, (error, result) ->
-      return throwError error.reason if error
-      throwError 'This link has already been posted' if result.postExists
+      Errors.throw error.reason if error
+      Errors.throw 'This link has already been posted' if result.postExists
       Router.go 'postPage', _id: result._id

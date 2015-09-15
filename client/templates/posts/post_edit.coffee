@@ -22,7 +22,7 @@
 
     Posts.update currentPostId, {$set: postProperties}, (error) ->
       if error
-        throwError error.reason
+        Errors.throw error.reason
       else
         Router.go 'postPage', _id: currentPostId
 
