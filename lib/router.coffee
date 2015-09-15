@@ -2,9 +2,7 @@
   layoutTemplate: 'layout',
   loadingTemplate: 'loading',
   notFoundTemplate: 'notFound',
-  waitOn: () -> [Meteor.subscribe('posts'), Meteor.subscribe('notifications')]
-
-@Router.route '/', name:'postsList'
+  waitOn: () -> Meteor.subscribe('notifications')
 
 @Router.route '/posts/:_id',
   name: 'postPage'
@@ -16,6 +14,17 @@
   data: () -> Posts.findOne @params._id
 
 @Router.route '/submit', name: 'postSubmit'
+
+@PostsListController = RouteController.extend
+  template: 'postsList'
+  increment: 5
+  postsLimit: () -> parseInt(@params.postsLimit) or @increment
+  findOptions: () -> {sort: {submitted: -1}, limit: @postsLimit()}
+  waitOn: () -> Meteor.subscribe 'posts', @findOptions()
+  data: () -> {posts: Posts.find({}, this.findOptions())}
+
+@Router.route '/:postsLimit?',
+  name:'postsList'
 
 requireLogin = () ->
   if !Meteor.user()
