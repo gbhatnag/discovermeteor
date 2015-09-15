@@ -4,3 +4,4 @@ Template.postItem.helpers
     a.href = @url
     a.hostname
   ownPost: () -> @userId is Meteor.userId()
+  commmentsCount: () -> Comments.find({postId: @_id}).count()
