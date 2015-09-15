@@ -3,3 +3,5 @@
 @Meteor.publish 'comments', (postId) ->
   check postId, String
   Comments.find postId: postId
+
+@Meteor.publish 'notifications', () -> Notifications.find()
