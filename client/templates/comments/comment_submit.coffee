@@ -1,10 +1,10 @@
-@Template.postEdit.onCreated () ->
+@Template.commentSubmit.onCreated () ->
   Session.set 'commentSubmitErrors', {}
 
 @Template.commentSubmit.helpers
   errorMessage: (field) -> Session.get('commentSubmitErrors')[field]
   errorClass: (field) ->
-    if Session.get('commentSubmitErrors')[field] then 'has-error' else ''
+    if !!Session.get('commentSubmitErrors')[field] then 'has-error' else ''
 
 @Template.commentSubmit.events
   'submit form': (e, template) ->
