@@ -21,7 +21,14 @@
   postsLimit: () -> parseInt(@params.postsLimit) or @increment
   findOptions: () -> {sort: {submitted: -1}, limit: @postsLimit()}
   waitOn: () -> Meteor.subscribe 'posts', @findOptions()
-  data: () -> {posts: Posts.find({}, this.findOptions())}
+  posts: () -> Posts.find({}, @findOptions())
+  data: () ->
+    hasMore = @posts().count() is @postsLimit()
+    nextPath = @route.path({postsLimit: @postsLimit() + @increment})
+    {
+      posts: @posts()
+      nextPath: if hasMore then nextPath else null
+    }
 
 @Router.route '/:postsLimit?',
   name:'postsList'
