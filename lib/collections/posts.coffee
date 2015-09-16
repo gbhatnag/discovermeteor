@@ -31,10 +31,26 @@
       author: user.username
       submitted: new Date()
       commentsCount: 0
+      upvoters: []
+      votes: 0
 
     postId = Posts.insert post
 
     return _id: postId
+
+  upvote: (postId) ->
+    check @userId, String
+    check postId, String
+
+    affected = Posts.update
+      _id: postId
+      upvoters: {$ne: @userId}
+    ,
+      $addToSet: {upvoters: @userId}
+      $inc: {votes: 1}
+
+    if not affected
+      throw new Meteor.Error 'invalid', 'You were not able to upvote this post'
 
 @validatePost = (post) ->
   errors = {}

@@ -17,6 +17,8 @@ if Posts.find().count() is 0
     author: sacha.profile.name
     submitted: new Date(now - 7 * 3600 * 1000)
     commentsCount: 2
+    upvoters: []
+    votes: 0
 
   Comments.insert
     postId: telescopeId
@@ -39,6 +41,8 @@ if Posts.find().count() is 0
     author: tom.profile.name
     submitted: new Date()
     commentsCount: 0
+    upvoters: []
+    votes: 0
 
   Posts.insert
     title: 'The Meteor Book'
@@ -47,6 +51,8 @@ if Posts.find().count() is 0
     author: tom.profile.name
     submitted: new Date()
     commentsCount: 0
+    upvoters: []
+    votes: 0
 
   for i in [0..10] by 1
     Posts.insert
@@ -56,3 +62,5 @@ if Posts.find().count() is 0
       url: "http://google.com/?q=test-#{i}"
       submitted: new Date(now - i * 3600 * 1000)
       commentsCount: 0
+      upvoters: []
+      votes: 0
