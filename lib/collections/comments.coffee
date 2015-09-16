@@ -1,3 +1,6 @@
+###
+# @summary Comments are added to posts for discussion purposes.
+###
 @Comments = new Mongo.Collection 'comments'
 
 @Meteor.methods
