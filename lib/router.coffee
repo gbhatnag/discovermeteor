@@ -4,6 +4,24 @@
   notFoundTemplate: 'notFound',
   waitOn: () -> Meteor.subscribe('notifications')
 
+@PostsListController = RouteController.extend
+  template: 'postsList'
+  increment: 5
+  postsLimit: () -> parseInt(@params.postsLimit) or @increment
+  findOptions: () -> {sort: {submitted: -1}, limit: @postsLimit()}
+  subscriptions: () ->
+    @postsSub = Meteor.subscribe 'posts', @findOptions()
+    return null
+  posts: () -> Posts.find({}, @findOptions())
+  data: () ->
+    hasMore = @posts().count() is @postsLimit()
+    nextPath = @route.path({postsLimit: @postsLimit() + @increment})
+    {
+      posts: @posts()
+      ready: @postsSub.ready
+      nextPath: if hasMore then nextPath else null
+    }
+
 @Router.route '/posts/:_id',
   name: 'postPage'
   waitOn: () -> Meteor.subscribe 'comments', @params._id
@@ -14,21 +32,6 @@
   data: () -> Posts.findOne @params._id
 
 @Router.route '/submit', name: 'postSubmit'
-
-@PostsListController = RouteController.extend
-  template: 'postsList'
-  increment: 5
-  postsLimit: () -> parseInt(@params.postsLimit) or @increment
-  findOptions: () -> {sort: {submitted: -1}, limit: @postsLimit()}
-  waitOn: () -> Meteor.subscribe 'posts', @findOptions()
-  posts: () -> Posts.find({}, @findOptions())
-  data: () ->
-    hasMore = @posts().count() is @postsLimit()
-    nextPath = @route.path({postsLimit: @postsLimit() + @increment})
-    {
-      posts: @posts()
-      nextPath: if hasMore then nextPath else null
-    }
 
 @Router.route '/:postsLimit?',
   name:'postsList'
